@@ -32,12 +32,15 @@ afm_get_info <- function(filename) {
   # FontName Arial-ItalicMT
   # FullName Arial Italic
   FamilyName <- sub("^FamilyName ", "", text[grepl("^FamilyName", text)])
+  if(length(FamilyName) == 0) FamilyName = ''
   FontName   <- sub("^FontName ",   "", text[grepl("^FontName",   text)])
+  if(length(FontName) == 0) FontName = ''
   FullName   <- sub("^FullName ",   "", text[grepl("^FullName",   text)])
+  if(length(FullName) == 0) FullName = ''
   weight     <- sub("^Weight ",   "", text[grepl("^Weight",   text)])
 
   # Read in the Weight and figure out of it's Bold
-  if (grepl("Bold", weight)) {
+  if ((length(weight)>0) && (grepl("Bold", weight))) {
     Bold <- TRUE
   } else {
     Bold <- FALSE
@@ -47,14 +50,14 @@ afm_get_info <- function(filename) {
   # Sometimes Italic is indicated in weight; for some fonts, it's Oblique.
   # For other fonts (like CM), Italic is indicated in FontName, and
   # sometimes it's Slanted.
-  if (grepl("Italic", weight) || grepl("Oblique", weight) ||
-      grepl("Italic", FontName) || grepl("Slanted", FontName)) {
+  if ((length(weight)>0) && (grepl("Italic", weight) || grepl("Oblique", weight) ||
+      grepl("Italic", FontName) || grepl("Slanted", FontName))) {
     Italic <- TRUE
   } else {
     Italic <- FALSE
   }
 
-  if (grepl("Symbol", FamilyName))
+  if ((length(weight)>0) && (grepl("Symbol", FamilyName)))
     Symbol <- TRUE
   else
     Symbol <- FALSE
